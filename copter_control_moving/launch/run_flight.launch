@@ -2,13 +2,13 @@
   <node pkg="copter_control_moving" type="copter_control_moving_node" name="copter_control_moving_node" output="screen" respawn="true">
   </node>
 
-  <param name="/landing_control/pitch/p" type="double" value="0.750" />
-  <param name="/landing_control/pitch/i" type="double" value="0.051" />
-  <param name="/landing_control/pitch/d" type="double" value="0.051" />
+  <param name="/copter_control_moving/pitch/p" type="double" value="0.750" />
+  <param name="/copter_control_moving/pitch/i" type="double" value="0.051" />
+  <param name="/copter_control_moving/pitch/d" type="double" value="0.051" />
 
-  <param name="/landing_control/roll/p" type="double" value="0.750" />
-  <param name="/landing_control/roll/i" type="double" value="0.051" />
-  <param name="/landing_control/roll/d" type="double" value="0.051" />
+  <param name="/copter_control_moving/roll/p" type="double" value="0.750" />
+  <param name="/copter_control_moving/roll/i" type="double" value="0.051" />
+  <param name="/copter_control_moving/roll/d" type="double" value="0.051" />
 
 
 </launch>

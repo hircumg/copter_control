@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   sensor_msgs
   std_msgs
+  control_toolbox
 )
 find_package(DJIOSDK REQUIRED)
 

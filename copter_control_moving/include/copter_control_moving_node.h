@@ -20,11 +20,24 @@
 #include <std_msgs/UInt8.h>
 #include <sensor_msgs/Joy.h>
 #include <sensor_msgs/NavSatFix.h>
+#include <control_toolbox/pid.h>
+
 //DJI SDK includes
 #include <dji_sdk/DroneTaskControl.h>
 #include <dji_sdk/SDKControlAuthority.h>
 #include <dji_sdk/QueryDroneVersion.h>
 
+enum LANDING_STAGE
+{
+    ON_THE_GROUND,
+    TAKING_OFF,
+    APPROACHING,    // go to marker area by its gps coordinates, received with telemetry
+    CENTERING,      // centering under the marker using camera
+    DESCENDING,     // descending after centered
+    LAND_PLACE_FOUND,
+    LANDING,         // last landing stage
+    FINISHED
+};
 
 bool set_local_position();
 
@@ -84,3 +97,21 @@ typedef struct ServiceAck
 } ServiceAck;
 
 ServiceAck land();
+
+void wait_until_control();
+
+bool rc_sdk_enable_ = false;
+bool prev_rc_sdk_enable_= false;
+bool sdk_control_enabled_ = false;
+
+LANDING_STAGE landing_stage_ = ON_THE_GROUND;
+
+ros::Timer control_timer_;
+ros::Time last_time_;
+
+void timerCallback(const ros::TimerEvent& event);
+
+void controlByPosErrYawBody(double dx, double dy, double vert_vel, double yaw);
+
+control_toolbox::Pid pid_roll_;
+control_toolbox::Pid pid_pitch_;
