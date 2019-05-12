@@ -1,4 +1,4 @@
-
-<include file="$(find dji_sdk)/launch/sdk.launch"/>
-<include file="$(find dji_sdk_read_cam)/launch/manifold_cam.launch"/>
-
+<launch>
+    <include file="$(find dji_sdk)/launch/sdk.launch"/>
+    <include file="$(find dji_sdk_read_cam)/launch/manifold_cam.launch"/>
+</launch>
