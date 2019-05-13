@@ -35,7 +35,7 @@ int main(int argc, char** argv)
   // Subscribe to messages from dji_sdk_node
   ros::Subscriber flightStatusSub = nh.subscribe("dji_sdk/flight_status", 10, &flight_status_callback);
   ros::Subscriber displayModeSub = nh.subscribe("dji_sdk/display_mode", 10, &display_mode_callback);
-  ros::Subscriber localPosition = nh.subscribe("dji_sdk/local_position", 10, &local_position_callback);
+  //ros::Subscriber localPosition = nh.subscribe("dji_sdk/local_position", 10, &local_position_callback);
   ros::Subscriber gpsSub      = nh.subscribe("dji_sdk/gps_position", 10, &gps_position_callback);
   ros::Subscriber gpsHealth      = nh.subscribe("dji_sdk/gps_health", 10, &gps_health_callback);
 
@@ -64,7 +64,17 @@ int main(int argc, char** argv)
     num_targets = 2;
     //! Start Mission by setting Target state to 1
     target_set_state = 1;
-  }
+   ROS_INFO("land");
+    if (land().result)
+    {
+      ROS_INFO("Land command sent successfully");
+    }
+    else
+    {
+      ROS_WARN("Failed sending land command");
+      return 1;
+    }
+}
 
   ros::spin();
   return 0;
@@ -343,3 +353,21 @@ bool set_local_position()
 
   return (bool)localPosReferenceSetter.response.result;
 }
+
+ServiceAck
+land()
+{
+  dji_sdk::DroneTaskControl droneTaskControl;
+  droneTaskControl.request.task = 6;
+  drone_task_service.call(droneTaskControl);
+  if (!droneTaskControl.response.result)
+  {
+    ROS_WARN("ack.info: set = %i id = %i", droneTaskControl.response.cmd_set,
+             droneTaskControl.response.cmd_id);
+    ROS_WARN("ack.data: %i", droneTaskControl.response.ack_data);
+  }
+  return ServiceAck(
+    droneTaskControl.response.result, droneTaskControl.response.cmd_set,
+    droneTaskControl.response.cmd_id, droneTaskControl.response.ack_data);
+}
+

@@ -65,3 +65,22 @@ bool M100monitoredTakeoff();
 void local_position_ctrl(double &xCmd, double &yCmd, double &zCmd);
 
 
+typedef struct ServiceAck
+{
+  bool         result;
+  int          cmd_set;
+  int          cmd_id;
+  unsigned int ack_data;
+  ServiceAck(bool res, int set, int id, unsigned int ack)
+    : result(res)
+    , cmd_set(set)
+    , cmd_id(id)
+    , ack_data(ack)
+  {
+  }
+  ServiceAck()
+  {
+  }
+} ServiceAck;
+
+ServiceAck land();
