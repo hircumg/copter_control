@@ -9,7 +9,7 @@
  *
  */
 
-#include "dji_sdk.h"
+
 #include "copter_control_moving_node.h"
 
 ros::ServiceClient set_local_pos_reference;
